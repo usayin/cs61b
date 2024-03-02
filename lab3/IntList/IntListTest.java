@@ -70,4 +70,35 @@ public class IntListTest {
       * to add a main method. See ArithmeticTest.java for an
       * example. */
 
+    @Test
+    public void testReverse() {
+        /**
+         * 1. Test the reverse call returns a reversed list
+         * 2. Test the function is destructive
+         * 3. Test the method handles a null input properly
+          */
+        IntList A = IntList.of(1, 2, 3, 4, 5, 6);
+        IntList ACopy = IntList.of(1, 2, 3, 4, 5, 6);
+        IntList exp = IntList.of(6, 5, 4, 3, 2, 1);
+        IntList reversedA = IntList.reverse(A);
+        assertEquals(exp, reversedA);
+        assertNotEquals(A, ACopy);
+        assertNull(IntList.reverse(null));
+    }
+
+    @Test
+    public void testReverseD() {
+        /**
+         * 1. Test the reverse call returns a reversed list
+         * 2. Test the function is destructive
+         * 3. Test the method handles a null input properly
+         */
+        IntList A = IntList.of(1, 2, 3, 4, 5, 6);
+        IntList aCopy = IntList.of(1, 2, 3, 4, 5, 6);
+        IntList exp = IntList.of(6, 5, 4, 3, 2, 1);
+        IntList reversedA = IntList.reverseD(A);
+        assertEquals(exp, reversedA);
+        assertNotEquals(A, aCopy);
+        assertNull(IntList.reverse(null));
+    }
 }

@@ -11,11 +11,11 @@ public class IntList {
     /**
      * First element of list.
      */
-    public int first;
+    private int first;
     /**
      * Remaining elements of list.
      */
-    public IntList rest;
+    private IntList rest;
 
     /**
      * A List with first FIRST0 and rest REST0.
@@ -81,7 +81,6 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
         if (A == null) {
             return B;
         }
@@ -100,7 +99,6 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
         IntList res = new IntList();
         IntList ptr = res;
 
@@ -118,6 +116,54 @@ public class IntList {
 
         return res.rest;
     }
+
+    public static IntList reverse(IntList A) {
+        if (A == null) {
+            return null;
+        }
+
+        IntList reversedA = new IntList(A.first, null);
+        IntList ptr = A.rest;
+        while (ptr != null) {
+            IntList temp = new IntList(ptr.first, null);
+            temp.rest = reversedA;
+            reversedA = temp;
+            ptr = ptr.rest;
+        }
+
+        // clone ReversedA back to A
+        IntList ptrA = A;
+        IntList ptrReversedA = reversedA;
+        while (ptrA != null && ptrReversedA != null) {
+            ptrA.first = ptrReversedA.first;
+            ptrA = ptrA.rest;
+            ptrReversedA = ptrReversedA.rest;
+        }
+
+        return A;
+    }
+
+    public static IntList reverseD(IntList A) {
+        if (A == null) {
+            return null;
+        }
+
+        IntList tail = A;
+        while (tail.rest != null) {
+            tail = tail.rest;
+        }
+
+        IntList ptr = A;
+        while (ptr != tail) {
+            IntList temp = ptr.rest;
+            ptr.rest = tail.rest;
+            tail.rest = ptr;
+            ptr = temp;
+        }
+
+        return tail;
+    }
+
 
 
 
