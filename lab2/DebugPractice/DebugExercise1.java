@@ -4,8 +4,9 @@
  */
 public class DebugExercise1 {
     public static int divideThenRound(int top, int bottom) {
-        int quotient = top / bottom;
-        int result = Math.round(quotient);
+        // top / bottom turns out to be an int rather than double as we might think in math
+        double quotient = 1.0 * top / bottom;
+        int result = (int) Math.round(quotient);
         return result;
     }
 
