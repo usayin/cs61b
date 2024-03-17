@@ -10,11 +10,11 @@ public class LinkedListDeque<T> {
         private Node next;
         private Node prev;
 
-        Node() {
+        public Node() {
 
         }
 
-        Node(T value, Node next, Node prev) {
+        public Node(T value, Node next, Node prev) {
             this.value = value;
             this.next = next;
             this.prev = prev;
@@ -140,5 +140,26 @@ public class LinkedListDeque<T> {
         } else {
             return pointer.value;
         }
+    }
+
+    /**
+     * Same as get, but uses recursion.
+     * @param index
+     * @return
+     */
+    private T getRecursive(int index, Node rest) {
+        if (index >= size || index < 0) {
+            return null;
+        }
+
+        if (index == 0) {
+            return rest.value;
+        }
+
+        return getRecursive(index - 1, rest.next);
+    }
+
+    public T getRecursive(int index) {
+        return getRecursive(index, sentinel.next);
     }
 }
