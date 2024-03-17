@@ -95,15 +95,13 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        /**
-         * 0 is the first element, 1 is the next and so on ...
-         */
         if (index >= size) {
             return null;
         } else {
             int ptr = getFirstItemIndex();
             while (index > 0) {
                 ptr = inc(ptr);
+                index -= 1;
             }
 
             return items[ptr];
@@ -152,17 +150,5 @@ public class ArrayDeque<T> {
         items = temp; // items point to resized array
         nextFirst = 0;
         nextLast = size + 1;
-    }
-
-    public static void main(String[] args) {
-        ArrayDeque<Integer> deque = new ArrayDeque<>();
-
-        deque.addFirst(1);
-        deque.addFirst(2);
-        deque.addFirst(3);
-        deque.removeFirst();
-        Integer result = deque.get(0);
-
-        System.out.println(result);
     }
 }
