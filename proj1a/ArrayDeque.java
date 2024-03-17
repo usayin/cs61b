@@ -42,7 +42,7 @@ public class ArrayDeque<T> {
     }
 
     public int size() {
-       return this.size;
+        return this.size;
     }
 
     public void printDeque() {
@@ -62,6 +62,7 @@ public class ArrayDeque<T> {
             items[removedIndex] = null;
 
             size -= 1;
+            nextFirst = inc(nextFirst);
 
             if (size / items.length <= 0.25) {
                 resize(0.5);
@@ -81,6 +82,7 @@ public class ArrayDeque<T> {
             items[removedIndex] = null;
 
             size -= 1;
+            nextLast = dec(nextLast);
 
             if (size / items.length <= 0.25) {
                 resize(0.5);
@@ -93,16 +95,21 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        if (validIndex(index)) {
-            return items[index];
-        } else {
+        /**
+         * 0 is the first element, 1 is the next and so on ...
+         */
+        if (index >= size) {
             return null;
+        } else {
+            int ptr = getFirstItemIndex();
+            while (index > 0) {
+                ptr = inc(ptr);
+            }
+
+            return items[ptr];
         }
     }
 
-    private boolean validIndex(int index) {
-        return index >= 0 && index <= items.length;
-    }
 
     private int getLastItemIndex() {
         return dec(nextLast);
@@ -147,7 +154,15 @@ public class ArrayDeque<T> {
         nextLast = size + 1;
     }
 
-    public int arraySize() {
-        return items.length;
+    public static void main(String[] args) {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+
+        deque.addFirst(1);
+        deque.addFirst(2);
+        deque.addFirst(3);
+        deque.removeFirst();
+        Integer result = deque.get(0);
+
+        System.out.println(result);
     }
 }

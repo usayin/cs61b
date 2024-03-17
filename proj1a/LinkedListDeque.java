@@ -5,36 +5,34 @@
  * @Created by Peng
  */
 public class LinkedListDeque<T> {
-    private static class Node<T> {
-        public T value;
-        public Node<T> next;
-        public Node<T> prev;
+    private class Node {
+        private T value;
+        private Node next;
+        private Node prev;
 
-        public Node() {}
+        Node() {
 
-        public Node(T value, Node<T> next, Node<T> prev) {
+        }
+
+        Node(T value, Node next, Node prev) {
             this.value = value;
             this.next = next;
             this.prev = prev;
         }
     }
 
-    private Node<T> sentinel;
+    private Node sentinel;
     private int size;
 
     /**
      * Init an empty Deque
      */
     public LinkedListDeque() {
-        sentinel = new Node<>();
+        sentinel = new Node();
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
         size = 0;
     }
-
-    /**
-     * APIs which a Deque should support
-     */
 
     /**
      * Add an item to the head position of the deque
@@ -42,7 +40,7 @@ public class LinkedListDeque<T> {
      */
     public void addFirst(T item) {
         // sentinel.next always points to the first node if exists
-        Node<T> node = new Node<>(item, sentinel.next, sentinel);
+        Node node = new Node(item, sentinel.next, sentinel);
         sentinel.next.prev = node;
         sentinel.next = node;
         size += 1;
@@ -54,7 +52,7 @@ public class LinkedListDeque<T> {
      */
     public void addLast(T item) {
         // sentinel.prev always points to the last node if exists
-        Node<T> node = new Node<>(item, sentinel, sentinel.prev);
+        Node node = new Node(item, sentinel, sentinel.prev);
         sentinel.prev.next = node;
         sentinel.prev = node;
         size += 1;
@@ -80,7 +78,7 @@ public class LinkedListDeque<T> {
      * Print all the elements of the deque from first to last
      */
     public void printDeque() {
-        Node<T> pointer = sentinel.next;
+        Node pointer = sentinel.next;
         while (pointer != sentinel) {
             System.out.print(pointer.value + " ");
             pointer = pointer.next;
@@ -88,12 +86,13 @@ public class LinkedListDeque<T> {
     }
 
     /**
-     * Remove and return the first element of deque if exists else return null
+     * Remove and return the first element of deque if exists
+     * else return null
      * @return
      */
     public T removeFirst() {
         if (!isEmpty()) {
-            Node<T> first = sentinel.next;
+            Node first = sentinel.next;
             sentinel.next = first.next;
             first.next.prev = sentinel;
             size -= 1;
@@ -105,12 +104,13 @@ public class LinkedListDeque<T> {
     }
 
     /**
-     * Remove and return the first element of deque if exists else return null
+     * Remove and return the first element of deque if exists
+     * else return null
      * @return
      */
     public T removeLast() {
         if (!isEmpty()) {
-            Node<T> last = sentinel.prev;
+            Node last = sentinel.prev;
             sentinel.prev = last.prev;
             last.prev.next = sentinel;
             size -= 1;
@@ -128,7 +128,7 @@ public class LinkedListDeque<T> {
      */
     public T get(int index) {
         // circular linked list's last node always point to the sentinel node
-        Node<T> pointer = sentinel.next;
+        Node pointer = sentinel.next;
 
         while (index > 0 && pointer != sentinel) {
             pointer = pointer.next;
@@ -140,17 +140,5 @@ public class LinkedListDeque<T> {
         } else {
             return pointer.value;
         }
-    }
-
-    public static void main(String[] args) {
-        LinkedListDeque<Integer> deque = new LinkedListDeque<>();
-        deque.addFirst(10);
-        deque.addFirst(1);
-        deque.addFirst(12);
-        deque.addLast(12);
-        deque.removeFirst();
-        deque.removeFirst();
-
-        deque.printDeque();
     }
 }
