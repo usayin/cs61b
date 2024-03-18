@@ -64,7 +64,7 @@ public class ArrayDeque<T> {
             size -= 1;
             nextFirst = inc(nextFirst);
 
-            if (size / items.length <= 0.25) {
+            if (lowUsage()) {
                 resize(0.5);
             }
 
@@ -84,7 +84,7 @@ public class ArrayDeque<T> {
             size -= 1;
             nextLast = dec(nextLast);
 
-            if (size / items.length <= 0.25) {
+            if (lowUsage()) { // bug here! size / items.length is always 0
                 resize(0.5);
             }
 
@@ -95,7 +95,7 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        if (index >= size) {
+        if (index >= size || index < 0) {
             return null;
         } else {
             int ptr = getFirstItemIndex();
@@ -149,6 +149,10 @@ public class ArrayDeque<T> {
 
         items = temp; // items point to resized array
         nextFirst = 0;
-        nextLast = size + 1;
+        nextLast = inc(size);
+    }
+
+    private boolean lowUsage() {
+        return (float) size / items.length <= 0.25;
     }
 }
