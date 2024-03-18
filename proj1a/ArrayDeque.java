@@ -19,20 +19,20 @@ public class ArrayDeque<T> {
 
     public void addFirst(T item) {
         items[nextFirst] = item;
-        nextFirst = dec(nextFirst);
+        nextFirst = minusOne(nextFirst);
         size += 1;
 
-        if (nextLast == nextFirst) {
+        if (size == items.length - 2) { // bug here! This condition is not always true, use size == len - 1
             resize(2);
         }
     }
 
     public void addLast(T item) {
         items[nextLast] = item;
-        nextLast = inc(nextLast);
+        nextLast = plusOne(nextLast);
         size += 1;
 
-        if (nextLast == nextFirst) {
+        if (size == items.length - 2) {
             resize(2);
         }
     }
@@ -50,7 +50,7 @@ public class ArrayDeque<T> {
 
         while (first != nextLast) {
             System.out.print(items[first] + " ");
-            first = inc(first);
+            first = plusOne(first);
         }
     }
 
@@ -62,7 +62,7 @@ public class ArrayDeque<T> {
             items[removedIndex] = null;
 
             size -= 1;
-            nextFirst = inc(nextFirst);
+            nextFirst = plusOne(nextFirst);
 
             if (lowUsage()) {
                 resize(0.5);
@@ -82,7 +82,7 @@ public class ArrayDeque<T> {
             items[removedIndex] = null;
 
             size -= 1;
-            nextLast = dec(nextLast);
+            nextLast = minusOne(nextLast);
 
             if (lowUsage()) { // bug here! size / items.length is always 0
                 resize(0.5);
@@ -100,7 +100,7 @@ public class ArrayDeque<T> {
         } else {
             int ptr = getFirstItemIndex();
             while (index > 0) {
-                ptr = inc(ptr);
+                ptr = plusOne(ptr);
                 index -= 1;
             }
 
@@ -110,14 +110,14 @@ public class ArrayDeque<T> {
 
 
     private int getLastItemIndex() {
-        return dec(nextLast);
+        return minusOne(nextLast);
     }
 
     private int getFirstItemIndex() {
-        return inc(nextFirst);
+        return plusOne(nextFirst);
     }
 
-    private int inc(int index) {
+    private int plusOne(int index) {
         index += 1;
         if (index >= items.length) {
             index = 0;
@@ -126,7 +126,7 @@ public class ArrayDeque<T> {
         return index;
     }
 
-    private int dec(int index) {
+    private int minusOne(int index) {
         index -= 1;
         if (index < 0) {
             index = items.length - 1;
@@ -143,13 +143,13 @@ public class ArrayDeque<T> {
         int first = getFirstItemIndex();
         while (first != nextLast) {
             temp[index] = items[first];
-            first = inc(first);
+            first = plusOne(first);
             index += 1;
         }
 
         items = temp; // items point to resized array
         nextFirst = 0;
-        nextLast = inc(size);
+        nextLast = plusOne(size);
     }
 
     private boolean lowUsage() {
