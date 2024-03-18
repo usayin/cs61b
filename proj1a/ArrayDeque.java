@@ -22,7 +22,7 @@ public class ArrayDeque<T> {
         nextFirst = minusOne(nextFirst);
         size += 1;
 
-        if (size == items.length - 2) { // bug here! This condition is not always true, use size == len - 1
+        if (size == items.length - 2) { // bug here!
             resize(2);
         }
     }
@@ -139,7 +139,8 @@ public class ArrayDeque<T> {
         T[] temp = (T[]) new Object[(int) (items.length * factor)];
 
         // copy item of items range [first, last] to new array temp
-        int index = 1;
+        // temp[0, size-1] is full of elements.
+        int index = 0;
         int first = getFirstItemIndex();
         while (first != nextLast) {
             temp[index] = items[first];
@@ -148,11 +149,11 @@ public class ArrayDeque<T> {
         }
 
         items = temp; // items point to resized array
-        nextFirst = 0;
-        nextLast = plusOne(size);
+        nextFirst = minusOne(0);
+        nextLast = plusOne(size - 1);
     }
 
     private boolean lowUsage() {
-        return (float) size / items.length <= 0.25;
+        return (float) size / items.length <= 0.25 && items.length > 8;
     }
 }
